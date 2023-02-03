@@ -1,12 +1,12 @@
 from main import ma
+from marshmallow.validate import Length
+from models.users import User
 
-#create the Card Schema with Marshmallow, it will provide the serialization needed for converting the data into JSON
-class CardSchema(ma.Schema):
+class UserSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
-        # Fields to expose
-        fields = ("id", "title", "description", "date", "status", "priority")
+        model = User
+    #set the password's length to a minimum of 6 characters
+    password = ma.String(validate=Length(min=6))
 
-#single card schema, when one card needs to be retrieved
-card_schema = CardSchema()
-#multiple card schema, when many cards need to be retrieved
-cards_schema = CardSchema(many=True)
+user_schema = UserSchema()
+users_schema = UserSchema(many=True)
